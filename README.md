@@ -1,6 +1,6 @@
 # DTU
 微诺时代物联网项目框架参考微服务DDD和kratos工程设计概念
-#目录结构
+# 目录结构
 ```bash
 ├── apis   //基于porotocl buffer设计的api http或grpc
 │   └── 1.txt
