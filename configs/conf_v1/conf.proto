@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package conf.v1;
+
+
+import "google/protobuf/duration.proto";
+
+//option go_package = "DTU/configs/confg.v1";
+
+message Config {
+  
+/*
+   所有通信类接口定义
+   all Communication interfaces defintions
+*/
+message Communication {
+    ConnEyes AlleyesConfig = 1; //  白目链接信息
+    ConnEc   EcConfig = 2;  // 边缘计算链接信息
+    ConnTuya TuyaConfig = 3; //     涂鸦链接信息
+    ConnOther OtherConfig = 4; //   其他链接信息
+    ConnMi   MiConfig   = 5;    //  小米链接信息
+}
+message ConnEyes {
+    string IPCStatusGettingInterface = 1;  //    获取摄像头状态接口
+    string EventInfoRecvInterface = 2; //    接受事件信息接口
+    int32  GettingIPCIntervalTime = 3; //   获取摄像头状态间隔时间 单位秒
+}
+message ConnEc {
+    string EventUpdateInterface = 1; //    事件上传接口
+    string HealthUpdateInterface = 2; //    心跳上传接口
+}
+message ConnOther {
+    string ByPassInterface = 1; //  特殊设备上传接口
+}
+message ConnTuya {
+    string MerchantEmailInterface = 1; //   获取商家Email接口
+    string TuyaIotCloudAccessId = 2;  //    tuya 云平台AccessID
+    string TuyaIotCloudAccessCRET = 3; //   tuya 云平台cret
+    string TuyaUidCachePath = 4; // tuya 云平台用户id
+}
+
+
+/*
+        已经弃用 ！！！！！！
+       小米通信接口定义
+      如非必然请勿修改此配置
+  The definition this is  abandon  !!!!!
+  Do not modify this definition    !!!!
+*/
+message ConnMi {
+    string GatewayReturnInterface = 1; //   网关回传信息接口地址  如192.168.137.1:4321
+    string GatewayGettingListInterface = 2; //  获取设备列表接口地址 如192.168.137.1:4567
+    int32 GatewayDiscoverTimeOut = 3; //    自动发现网关的超时时间  单位秒
+    string GatewayTimeOutCount  = 4; // 自动发现网关的超时重试次数
+    int32 GatewayCacheSize = 5; //  网关通信接口缓存大小 单位字节
+    string GatewayGroupInterface = 6; //组播监听网卡名称
+}
+
+    string LogPath = 1; //  日志文件位置
+    bool    ExtendMi = 2; //    启用废弃Mi接口选项
+    Communication ConnConfig = 3; // 通信相关配置
+    int32 DeviceListIntervalTime = 4; //设备列表生成时间
+    
+}
+
+
