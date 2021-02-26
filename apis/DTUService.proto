@@ -1,10 +1,10 @@
 // [ START declaration ]
 syntax = "proto3";
-package DTUApi;
+package DTU;
 
 // [ END declaration ]
 
-option  go_package = "DTU/apis/DTUApi";
+option  go_package = "DTU";
 
 message SayHello {
     string name = 1;
@@ -20,4 +20,4 @@ message SayHello {
         int32 age = 1;
         SexType gender = 2;
     }
-}
+    HeroInfo info = 4;}
