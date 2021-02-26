@@ -9,8 +9,6 @@ import "google/protobuf/duration.proto";
 message Config {
   string LogPath = 1;
 
-
-
 }
 
 
