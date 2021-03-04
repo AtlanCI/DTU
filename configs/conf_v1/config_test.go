@@ -19,3 +19,8 @@ func TestConfigWriteFile(t *testing.T) {
 		panic(err)
 	}
 }
+
+func TestNewConfig2(t *testing.T) {
+	config := NewConfig(ConfigExtendMi(MiExtend),ConfigTuyaAccessId(TuyaAccessId),ConfigTuyaAccessCRET(TuyaCret),ConfigListenPort(ListPort))
+	fmt.Print(config)
+}

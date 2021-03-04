@@ -48,7 +48,6 @@ func ConfigTuyaEmailInterface(p string) DialOption {
 func ConfigTuyaAccessId(p string) DialOption {
 	return func(s *Config) {
 		s.ConnConfig.TuyaConfig.TuyaIotCloudAccessId = p
-
 	}
 }
 

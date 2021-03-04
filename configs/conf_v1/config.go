@@ -1,11 +1,25 @@
 package conf_v1
 
 import (
+	"flag"
 	"github.com/golang/protobuf/jsonpb"
 	"io"
 	"os"
 )
+var MiExtend bool
+var ListPort string
+var TuyaAccessId string
+var TuyaCret string
 
+func init(){
+	flag.BoolVar(&MiExtend,"m",false,"open / close mi active")
+	flag.StringVar(&ListPort,"p",":9901","set listen port")
+	flag.StringVar(&TuyaAccessId,"a","5jh3wwnsa9wq5xda4hls","Tuya Iot Cloud Access ID")
+	flag.StringVar(&TuyaCret,"c","bda847da6348420caae301def1f95c75","Tuya Iot Cloud Access CRET")
+}
+
+// init Config object
+// optional select  parameter pass options func set
 func NewConfig(options ...func(*Config)) *Config {
 	// configurations default value
 	Conf := Config {
@@ -40,9 +54,6 @@ func NewConfig(options ...func(*Config)) *Config {
 	}
 	return &Conf
 }
-
-
-
 
 //Load conf file
 //return a byte type slice
