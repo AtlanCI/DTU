@@ -11,7 +11,7 @@ message Config {
   
 /*
    所有通信类接口定义
-   all Communication interfaces defintions
+   all Communication interfaces definitions
 */
 message Communication {
     ConnEyes AlleyesConfig = 1; //  白目链接信息
@@ -60,7 +60,7 @@ message ConnMi {
     bool    ExtendMi = 2; //    启用废弃Mi接口选项
     Communication ConnConfig = 3; // 通信相关配置
     int32 DeviceListIntervalTime = 4; //设备列表生成时间
-    
+    string ListenPort = 5;
 }
 
 

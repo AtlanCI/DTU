@@ -2,6 +2,12 @@ package conf_v1
 
 type DialOption func(*Config)
 
+
+func ConfigListenPort(p string) DialOption {
+	return func(s *Config) {
+		s.ListenPort = p
+	}
+}
 func ConfigEcEventInterface(p string) DialOption {
 	return func(s *Config) {
 		s.ConnConfig.EcConfig.EventUpdateInterface = p
@@ -16,7 +22,7 @@ func ConfigEcHealthInterface(p string) DialOption {
 
 func ConfigEyesIpcIntervalTime(p int32) DialOption {
 	return func(s *Config) {
-		s.ConnConfig.AlleyesConfig.GetGettingIPCIntervalTime = p
+		s.ConnConfig.AlleyesConfig.GettingIPCIntervalTime = p
 	}
 }
 
@@ -53,7 +59,7 @@ func ConfigTuyaAccessCRET(p string) DialOption {
 	}
 }
 
-func COnfigOtherByPassInterface(p string) DialOption {
+func ConfigOtherByPassInterface(p string) DialOption {
 	return func(s *Config) {
 		s.ConnConfig.OtherConfig.ByPassInterface = p
 
