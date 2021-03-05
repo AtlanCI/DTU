@@ -11,7 +11,23 @@ type EcMail interface {
 	Mail([]byte) string
 	ToString() string
 }
+type GreeterRepo struct {
+	repo EcMail
+}
 
+func NewGreeterRepo(repo2 EcMail) *GreeterRepo {
+	return &GreeterRepo{repo: repo2}
+}
+func (u *GreeterRepo) MailTo(p []byte) string {
+	return u.repo.Mail(p)
+}
+
+func (u *GreeterRepo) StringTo() string {
+	return u.repo.ToString()
+}
+func (u *GreeterRepo) Repo() EcMail {
+	return u.repo
+}
 func UidSaveFile(Uid string, config *conf_v1.Config_ConnTuya) {
 	if !tyutils.Exists(config.TuyaUidCachePath) {
 		file, err := os.Create(config.TuyaUidCachePath)
@@ -34,6 +50,5 @@ func GetEcEmail(config *conf_v1.Config_ConnTuya, mail EcMail) string {
 	if mail.Mail(body) != "" {
 		return mail.ToString()
 	}
-	//UidSaveFile(mail.ToString(),config)
 	return ""
 }

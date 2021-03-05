@@ -33,3 +33,7 @@ func (p *TuyaRecv) UidToString() string {
 func (p *TuyaRecv) ModeToString() string {
 	return p.BizCode
 }
+
+func NewTuyaRecv() *TuyaRecv {
+	return &TuyaRecv{}
+}

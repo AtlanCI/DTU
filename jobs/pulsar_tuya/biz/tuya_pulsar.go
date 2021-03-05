@@ -15,13 +15,23 @@ import (
 
 var StopConsumer pulsar.Consumer
 
-type tuyaPulsar interface {
+type TuyaPulsar interface {
 	Parse([]byte) bool
 	UidToString() string
 	ModeToString() string
 }
+type TuyaPulsarData struct {
+	repo TuyaPulsar
+}
 
-func StartTuyaPulsar(config *conf_v1.Config_ConnTuya, pulsar2 tuyaPulsar, mail EcMail) {
+func NewTuyaPulsarData(repo TuyaPulsar) *TuyaPulsarData {
+	return &TuyaPulsarData{repo: repo}
+}
+
+func (p *TuyaPulsarData) Repo() TuyaPulsar {
+	return p.repo
+}
+func StartTuyaPulsar(config *conf_v1.Config_ConnTuya, pulsar2 TuyaPulsar, mail EcMail) {
 	pulsar.SetInternalLogLevel(logrus.PanicLevel)
 	tylog.SetGlobalLog("sdk", true)
 	topic := pulsar.TopicForAccessID(config.TuyaIotCloudAccessId)
@@ -45,7 +55,7 @@ func StartTuyaPulsar(config *conf_v1.Config_ConnTuya, pulsar2 tuyaPulsar, mail E
 
 type helloHandler struct {
 	AesSecret string
-	Recv      tuyaPulsar
+	Recv      TuyaPulsar
 	Conf      *conf_v1.Config_ConnTuya
 	MerMail   EcMail
 }
@@ -70,15 +80,6 @@ func (h *helloHandler) HandlePayload(ctx context.Context, msg *pulsar.Message, p
 
 	// 数据处理逻辑块
 
-	//var tuyaRe TuyaRecv
-	//err = json.Unmarshal(decode, &tuyaRe)
-	//if err != nil {
-	//	log.Write.Println("*********************解析通道值失败*****************************************************")
-	//	return err
-	//	//panic(err)
-	//}
-
-	//if tuyaRe.BizCode == "bindUser" {
 	if !h.Recv.Parse(decode) {
 		fmt.Println("解析失败")
 		return nil
@@ -97,39 +98,5 @@ func (h *helloHandler) HandlePayload(ctx context.Context, msg *pulsar.Message, p
 			StopConsumer.Stop()
 		}
 	}
-	//	/
-	//	if err != nil {
-	//		//fmt.Println("获取信息错误")
-	//		log.Write.Println("*********************获取用户信息失败*****************************************************")
-	//		return err
-	//
-	//		//panic(err)
-	//	}
-	//	//fmt.Println("用户详细",resp)
-	//	//log.Write.Println("用户详细",resp)
-	//
-	//	switch MerchantEmail {
-	//	case "":
-	//		//if resp.Result.Email == conf.IotEmail {
-	//		//	UidSaveFile(resp.Result.Uid)
-	//		//	Uid = resp.Result.Uid
-	//		//	StopConsumer.Stop()
-	//		//	//os.Exit(153)
-	//		//}
-	//		log.Write.Fatal("用户邮箱为空")
-	//		return  nil
-	//	default:
-	//		if resp.Result.Email == MerchantEmail {
-	//			UidSaveFile(resp.Result.Uid)
-	//			Uid = resp.Result.Uid
-	//			StopConsumer.Stop()
-	//			//os.Exit(153)
-	//		}
-	//	}
-	//
-	//}
-
-	//tylog.Info("aes decode", tylog.ByteString("decode payload", decode))
-
 	return nil
 }
