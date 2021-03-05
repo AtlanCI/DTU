@@ -31,7 +31,7 @@ func GetEcEmail(config *conf_v1.Config_ConnTuya, mail EcMail) string {
 	if err != nil {
 		panic(err)
 	}
-	if mail.Mail(body) == "" {
+	if mail.Mail(body) != "" {
 		return mail.ToString()
 	}
 	//UidSaveFile(mail.ToString(),config)

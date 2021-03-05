@@ -6,7 +6,9 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/sirupsen/logrus"
 	pulsar "github.com/tuya/tuya-pulsar-sdk-go"
+	"github.com/tuya/tuya-pulsar-sdk-go/pkg/tylog"
 	"github.com/tuya/tuya-pulsar-sdk-go/pkg/tyutils"
 	"time"
 )
@@ -19,7 +21,9 @@ type tuyaPulsar interface {
 	ModeToString() string
 }
 
-func StartTuyaPulsar(config *conf_v1.Config_ConnTuya, pulsar2 tuyaPulsar) {
+func StartTuyaPulsar(config *conf_v1.Config_ConnTuya, pulsar2 tuyaPulsar, mail EcMail) {
+	pulsar.SetInternalLogLevel(logrus.PanicLevel)
+	tylog.SetGlobalLog("sdk", true)
 	topic := pulsar.TopicForAccessID(config.TuyaIotCloudAccessId)
 
 	//create client
@@ -34,7 +38,7 @@ func StartTuyaPulsar(config *conf_v1.Config_ConnTuya, pulsar2 tuyaPulsar) {
 	csm, _ := c.NewConsumer(csmCfg)
 	StopConsumer = csm
 	//handle message
-	csm.ReceiveAndHandle(context.Background(), &helloHandler{config.TuyaIotCloudAccessCRET[8:24], pulsar2, config})
+	csm.ReceiveAndHandle(context.Background(), &helloHandler{config.TuyaIotCloudAccessCRET[8:24], pulsar2, config, mail})
 
 	time.Sleep(10 * time.Second)
 }
@@ -43,6 +47,7 @@ type helloHandler struct {
 	AesSecret string
 	Recv      tuyaPulsar
 	Conf      *conf_v1.Config_ConnTuya
+	MerMail   EcMail
 }
 
 func (h *helloHandler) HandlePayload(ctx context.Context, msg *pulsar.Message, payload []byte) error {
@@ -75,15 +80,19 @@ func (h *helloHandler) HandlePayload(ctx context.Context, msg *pulsar.Message, p
 
 	//if tuyaRe.BizCode == "bindUser" {
 	if !h.Recv.Parse(decode) {
+		fmt.Println("解析失败")
 		return nil
 	}
-	//fmt.Println("解析后UID:", tuyaRe.BizData.UID)
+	fmt.Println("解析后UID:")
 	if h.Recv.ModeToString() == "bindUser" {
+		fmt.Println("进入")
 		resp, err := GetUserInfo(h.Recv.UidToString())
+		fmt.Println("获取完成")
 		if err != nil {
 			panic(err)
 		}
-		if resp.Result.Email == GetEcEmail(h.Conf, *new(EcMail)) {
+		if resp.Result.Email == GetEcEmail(h.Conf, h.MerMail) {
+			fmt.Println("进入流程")
 			UidSaveFile(resp.Result.Uid, h.Conf)
 			StopConsumer.Stop()
 		}

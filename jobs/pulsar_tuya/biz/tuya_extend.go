@@ -19,8 +19,11 @@ func (t *GetUserInfoReq) API() string {
 
 func GetUserInfo(uId string) (*GetUserInfoResponse, error) {
 	a := &GetUserInfoReq{Uid: uId}
+	fmt.Println(a)
 	resp := &GetUserInfoResponse{}
+	fmt.Println("hhhh")
 	err := common.DoAPIRequest(a, resp)
+	fmt.Println("wwwww")
 	return resp, err
 }
 
