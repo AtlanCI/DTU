@@ -2,7 +2,6 @@ package conf_v1
 
 type DialOption func(*Config)
 
-
 func ConfigListenPort(p string) DialOption {
 	return func(s *Config) {
 		s.ListenPort = p
@@ -54,6 +53,12 @@ func ConfigTuyaAccessId(p string) DialOption {
 func ConfigTuyaAccessCRET(p string) DialOption {
 	return func(s *Config) {
 		s.ConnConfig.TuyaConfig.TuyaIotCloudAccessCRET = p
+
+	}
+}
+func ConfigTuyaUidPath(p string) DialOption {
+	return func(s *Config) {
+		s.ConnConfig.TuyaConfig.TuyaUidCachePath = p
 
 	}
 }

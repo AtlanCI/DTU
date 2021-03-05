@@ -10,7 +10,7 @@ import (
 )
 
 func HttpGET(urlString string, urlParams url.Values, sTimeout int, header http.Header) (*http.Response, []byte, error) {
-	startTime := time.Now().UnixNano()
+	//startTime := time.Now().UnixNano()
 	client := http.Client{
 		Timeout: time.Duration(sTimeout) * time.Second,
 	}
@@ -61,7 +61,7 @@ func HttpGET(urlString string, urlParams url.Values, sTimeout int, header http.H
 }
 
 func HttpPOST(urlString string, urlParams url.Values, sTimeout int, header http.Header, contextType string) (*http.Response, []byte, error) {
-	startTime := time.Now().UnixNano()
+	//startTime := time.Now().UnixNano()
 	client := http.Client{
 		Timeout: time.Duration(sTimeout) * time.Second,
 	}
@@ -84,6 +84,7 @@ func HttpPOST(urlString string, urlParams url.Values, sTimeout int, header http.
 		//            "err":       err.Error(),
 		//        })
 		//    return nil, nil, err
+		panic(err)
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
@@ -97,6 +98,7 @@ func HttpPOST(urlString string, urlParams url.Values, sTimeout int, header http.
 		//         "err":       err.Error(),
 		//     })
 		//return nil, nil, err
+		panic(err)
 	}
 	//Log.TagInfo(DLTagHTTPSuccess, map[string]interface{}{
 	//        "url":       urlString,
