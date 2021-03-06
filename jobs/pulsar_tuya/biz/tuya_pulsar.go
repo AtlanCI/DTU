@@ -2,6 +2,7 @@ package biz
 
 import (
 	"DTU/configs/conf_v1"
+	"DTU/pkg"
 	"context"
 	"encoding/base64"
 	"encoding/json"
@@ -94,6 +95,8 @@ func (h *helloHandler) HandlePayload(ctx context.Context, msg *pulsar.Message, p
 		}
 		if resp.Result.Email == GetEcEmail(h.Conf, h.MerMail) {
 			fmt.Println("进入流程")
+			// set GlobalId
+			pkg.GlobleId = resp.Result.Uid
 			UidSaveFile(resp.Result.Uid, h.Conf)
 			StopConsumer.Stop()
 		}

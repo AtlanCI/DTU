@@ -5,17 +5,6 @@ import (
 	"sync"
 )
 
-var (
-	CronManager *Crontab
-	once        sync.Once
-)
-
-func init() {
-	once.Do(func() {
-		CronManager = NewCrontab()
-	})
-}
-
 // Crontab crontab manager
 type Crontab struct {
 	inner *cro.Cron
