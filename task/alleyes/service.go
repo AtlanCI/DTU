@@ -1,7 +1,6 @@
 package alleyes
 
 import (
-	"DTU/configs/conf_v1"
 	"DTU/pkg"
 	"encoding/json"
 	"time"
@@ -34,9 +33,9 @@ func conversionList(ipc IpcStatus) *pkg.DeviceList {
 		EventDetail:    IpcStatus{}.EventDetail,
 	}
 }
-func GetIpcStatus(config *conf_v1.Config_ConnEyes) {
+func GetIpcStatus(path string) {
 	var recv AlleyesStatus
-	_, body, err := pkg.HttpGET(config.IPCStatusGettingInterface, nil, 3, nil)
+	_, body, err := pkg.HttpGET(path, nil, 3, nil)
 	if err != nil {
 		panic(err)
 	}

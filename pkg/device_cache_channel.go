@@ -33,7 +33,7 @@ func (i *DeviceCacheInfoChannel) Notify() {
 		if key == nil {
 			return false
 		}
-		key.(DeviceListRecv).TuyaListCallBack(i.Data)
+		key.(DeviceCacheRecv).TuyaCacheCallBack(i.Data)
 		return true
 	})
 }

@@ -5,4 +5,5 @@ var (
 	DeviceListChannel   = &DeviceListInfoChannel{}
 	DeviceCacheChannel  = &DeviceCacheInfoChannel{}
 	DeviceHealthchannel = &DeviceHealthInfoChannel{}
+	DeviceEventChannel  = &DeviceEventInfoChannel{}
 )

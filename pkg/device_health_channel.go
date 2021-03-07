@@ -32,7 +32,7 @@ func (i *DeviceHealthInfoChannel) Notify() {
 		if key == nil {
 			return false
 		}
-		key.(DeviceListRecv).TuyaListCallBack(i.Data)
+		key.(DeviceHealthRecv).HealthCallBack(i.Data)
 		return true
 	})
 }
