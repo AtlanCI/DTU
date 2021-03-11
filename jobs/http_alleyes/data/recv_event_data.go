@@ -1,6 +1,9 @@
 package data
 
-import "time"
+import (
+	"encoding/json"
+	"time"
+)
 
 // AlleyesViolations 视频事件类，定义视频事件详细信息
 type AlleyesViolations struct {
@@ -16,39 +19,46 @@ type AlleyesViolations struct {
 	EventVideo   string    `json:"event_video"`
 } //接受白目发送的违规事件结构
 
-func NewAlleyesViolations() AlleyesViolations {
-	return AlleyesViolations{}
+func NewAlleyesViolations() *AlleyesViolations {
+	return &AlleyesViolations{}
 }
 
-func (p AlleyesViolations) Id() string {
+func (p *AlleyesViolations) Id() string {
 	return p.EventId
 }
 
-func (p AlleyesViolations) Type() int {
+func (p *AlleyesViolations) Type() int {
 	return p.EventType
 }
 
-func (p AlleyesViolations) Detail() int {
+func (p *AlleyesViolations) Detail() int {
 	return p.EventDetail
 }
 
-func (p AlleyesViolations) Description() string {
+func (p *AlleyesViolations) Description() string {
 	return p.EventDes
 }
 
-func (p AlleyesViolations) Time() string {
+func (p *AlleyesViolations) Time() string {
 	ctime := time.FixedZone("CST", 8*3600)
 	return p.OccurredTime.In(ctime).Format("2006-01-02 15:04:05")
 }
 
-func (p AlleyesViolations) Img() string {
+func (p *AlleyesViolations) Img() string {
 	return p.EventImg
 }
 
-func (p AlleyesViolations) Video() string {
+func (p *AlleyesViolations) Video() string {
 	return p.EventVideo
 }
 
-func (p AlleyesViolations) Uid() string {
+func (p *AlleyesViolations) Uid() string {
 	return p.EquipmentId
+}
+
+func (p *AlleyesViolations) ApplyToEvent(resp []byte) {
+	err := json.Unmarshal(resp, p)
+	if err != nil {
+		panic(err)
+	}
 }

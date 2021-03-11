@@ -1,0 +1,23 @@
+// +build wireinject
+package service
+
+import (
+	"DTU/jobs/http_alleyes/biz"
+	"github.com/google/wire"
+
+)
+
+
+
+type AlleyesEventRecvData struct {
+	BzData biz.AlleyesRecv
+}
+
+func NewalleyesEventRecvData(recv biz.AlleyesRecv) AlleyesEventRecvData {
+	return AlleyesEventRecvData{recv}
+}
+
+func initNewalleyesEventRecvData() *AlleyesEventRecvData{
+	wire.Build(RecvAlleyesSet)
+	return &AlleyesEventRecvData{}
+}
