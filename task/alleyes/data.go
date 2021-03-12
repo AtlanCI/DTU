@@ -1,9 +1,9 @@
 package alleyes
 
 type AlleyesStatus struct {
-	Code            int
-	EquipmentStatus []IpcStatus
-	Msg             string
+	Code            int         `json:"code"`
+	EquipmentStatus []IpcStatus `json:"equipment_status"`
+	Msg             string      `json:"msg"`
 }
 
 type IpcStatus struct {

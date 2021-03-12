@@ -1,6 +1,8 @@
 package biz
 
-import "DTU/pkg"
+import (
+	"DTU/pkg"
+)
 
 type CacheList interface {
 	Exists(DeviceCode string) bool
@@ -8,11 +10,13 @@ type CacheList interface {
 }
 
 type CacheBiz struct {
-	Cache CacheList
+	Code  int       `json:"code"`
+	Cache CacheList `json:"data"`
+	Msg   string    `json:"msg"`
 }
 
 func NewCacheBiz(list CacheList) *CacheBiz {
-	return &CacheBiz{list}
+	return &CacheBiz{Cache: list}
 }
 
 func (p *CacheBiz) TuyaListCallBack(data interface{}) {
