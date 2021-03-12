@@ -83,6 +83,8 @@ Loop:
 		Sensor:       a,
 		Manufacturer: "T",
 		ProductId:    d.Result.ProductID,
+		Online:       d.Result.Online,
+		ProductName:  d.Result.ProductName,
 	}
 }
 

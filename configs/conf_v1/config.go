@@ -33,6 +33,7 @@ func NewConfig(options ...func(*Config)) *Config {
 			EcConfig: &Config_ConnEc{
 				EventUpdateInterface:  "http://127.0.0.1:7001/gateway/violation",
 				HealthUpdateInterface: "http://127.0.0.1:7001/gateway/status",
+				DeviceListInterface:   "/ha/device/list",
 			},
 			AlleyesConfig: &Config_ConnEyes{
 				EventInfoRecvInterface:    "/v1/wntime/agent/violations/receive",
@@ -72,7 +73,7 @@ func LoadConfig(path string) *os.File {
 //write config file from c
 func ConfigWriteFile(c *Config) error {
 	m := jsonpb.Marshaler{Indent: " ", EmitDefaults: true}
-	file, err := os.OpenFile("/data/ha/conf/ha.conf", os.O_CREATE|os.O_RDWR, 0644)
+	file, err := os.OpenFile(c.LogPath, os.O_CREATE|os.O_RDWR, 0644)
 	if err != nil {
 		panic(err)
 	}

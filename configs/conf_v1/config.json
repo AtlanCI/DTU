@@ -1,0 +1,27 @@
+{
+ "LogPath": "F:\\github\\DTU\\configs\\conf_v1\\config.json",
+ "ExtendMi": false,
+ "ConnConfig": {
+  "AlleyesConfig": {
+   "IPCStatusGettingInterface": "http://127.0.0.1:9008/v1/alleyes/syncbot/BoxStatus/get",
+   "EventInfoRecvInterface": "/v1/wntime/agent/violations/receive",
+   "GettingIPCIntervalTime": 10
+  },
+  "EcConfig": {
+   "EventUpdateInterface": "http://127.0.0.1:7001/gateway/violation",
+   "HealthUpdateInterface": "http://127.0.0.1:7001/gateway/status"
+  },
+  "TuyaConfig": {
+   "MerchantEmailInterface": "http://127.0.0.1:7001/gateway/getRestaurant",
+   "TuyaIotCloudAccessId": "5jh3wwnsa9wq5xda4hls",
+   "TuyaIotCloudAccessCRET": "bda847da6348420caae301def1f95c75",
+   "TuyaUidCachePath": "/data/ha/conf/UID"
+  },
+  "OtherConfig": {
+   "ByPassInterface": "http://127.0.0.1:9001/recevice/violations"
+  },
+  "MiConfig": null
+ },
+ "DeviceListIntervalTime": 10,
+ "ListenPort": ":9901"
+}

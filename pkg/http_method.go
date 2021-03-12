@@ -117,3 +117,47 @@ func AddGetDataToUrl(urlString string, data url.Values) string {
 	}
 	return fmt.Sprintf("%s%s", urlString, data.Encode())
 }
+
+func HttpJSON(urlString string, jsonContent string, sTimeout int, header http.Header) (*http.Response, []byte, error) {
+	//startTime := time.Now().UnixNano()
+	client := http.Client{
+		Timeout: time.Duration(sTimeout) * time.Second,
+	}
+	req, err := http.NewRequest("POST", urlString, strings.NewReader(jsonContent))
+	if len(header) > 0 {
+		req.Header = header
+	}
+	req.Header.Set("Content-Type", "application/json")
+	resp, err := client.Do(req)
+	if err != nil {
+		//Log.TagWarn(DLTagHTTPFailed, map[string]interface{}{
+		//	"url":       urlString,
+		//	"proc_time": float32(time.Now().UnixNano()-startTime) / 1.0e9,
+		//	"method":    "POST",
+		//	"args":      Substr(jsonContent, 0, 1024),
+		//	"err":       err.Error(),
+		//})
+		//return nil, nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		//Log.TagWarn(DLTagHTTPFailed, map[string]interface{}{
+		//	"url":       urlString,
+		//	"proc_time": float32(time.Now().UnixNano()-startTime) / 1.0e9,
+		//	"method":    "POST",
+		//	"args":      Substr(jsonContent, 0, 1024),
+		//	"result":    Substr(string(body), 0, 1024),
+		//	"err":       err.Error(),
+		//})
+		//return nil, nil, err
+	}
+	//Log.TagInfo(DLTagHTTPSuccess, map[string]interface{}{
+	//	"url":       urlString,
+	//	"proc_time": float32(time.Now().UnixNano()-startTime) / 1.0e9,
+	//	"method":    "POST",
+	//	"args":      Substr(jsonContent, 0, 1024),
+	//	"result":    Substr(string(body), 0, 1024),
+	//})
+	return resp, body, nil
+}

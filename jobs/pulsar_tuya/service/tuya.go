@@ -16,10 +16,10 @@ func NewGreeterService(uc *biz.GreeterRepo, data *biz.TuyaPulsarData) *GreeterSe
 	return &GreeterService{uc: uc, uw: data}
 }
 
-func StartPulsar(tuya *conf_v1.Config_ConnTuya) {
+func StartPulsar(tuya *conf_v1.Config) {
 	Service := initializeNewGreeterService()
-	TuyaSDK.SetEnv("https://openapi.tuyacn.com", tuya.TuyaIotCloudAccessId, tuya.TuyaIotCloudAccessCRET)
-	if !pkg.Exists(tuya.TuyaUidCachePath) {
-		biz.StartTuyaPulsar(tuya, Service.uw.Repo(), Service.uc.Repo())
+	TuyaSDK.SetEnv("https://openapi.tuyacn.com", tuya.ConnConfig.TuyaConfig.TuyaIotCloudAccessId, tuya.ConnConfig.TuyaConfig.TuyaIotCloudAccessCRET)
+	if !pkg.Exists(tuya.ConnConfig.TuyaConfig.TuyaUidCachePath) {
+		biz.StartTuyaPulsar(tuya.ConnConfig.TuyaConfig, Service.uw.Repo(), Service.uc.Repo())
 	}
 }

@@ -13,7 +13,7 @@ type DeviceViolationsEvent struct {
 	DeviceCode       string      `json:"device_code"`
 	DeviceTypeCode   string      `json:"device_type_code"`
 	Data             interface{} `json:"data"`
-	Manufactory      string      `json:"manufactory"`
+	Manufactory      string      `json:"manufactory"` //故意拼写 错误 如要更改请通知Ec程序 负责人
 	ExtensionField   string      `json:"extension_field"`
 }
 

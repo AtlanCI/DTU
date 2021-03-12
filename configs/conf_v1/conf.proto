@@ -3,9 +3,7 @@ syntax = "proto3";
 package conf.v1;
 
 
-import "google/protobuf/duration.proto";
-
-//option go_package = "DTU/configs/confg.v1";
+option go_package = "./;conf_v1";
 
 message Config {
   
@@ -28,6 +26,7 @@ message ConnEyes {
 message ConnEc {
     string EventUpdateInterface = 1; //    事件上传接口
     string HealthUpdateInterface = 2; //    心跳上传接口
+    string DeviceListInterface = 4; // 设备列表接口
 }
 message ConnOther {
     string ByPassInterface = 1; //  特殊设备上传接口
@@ -60,7 +59,7 @@ message ConnMi {
     bool    ExtendMi = 2; //    启用废弃Mi接口选项
     Communication ConnConfig = 3; // 通信相关配置
     int32 DeviceListIntervalTime = 4; //设备列表生成时间
-    string ListenPort = 5;
+    string ListenPort = 5;      //监听端口
 }
 
 
