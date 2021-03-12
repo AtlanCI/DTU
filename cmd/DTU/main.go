@@ -1,8 +1,9 @@
-// +build wireinject
-package DTU
+package main
 
-import "github.com/google/wire"
+func main() {
+	conf := NewConf()
+	StartJobs(conf)
+	StartUpDataToEc(conf)
+	StartHttpServer(conf)
 
-func initAppProviderSet() {
-	wire.Build(AppProviderSet)
 }

@@ -3,7 +3,6 @@ package conf_v1
 import (
 	"flag"
 	"github.com/golang/protobuf/jsonpb"
-	TuyaSDK "github.com/tuya/tuya-cloud-sdk-go/config"
 	"io"
 	"os"
 )
@@ -12,12 +11,14 @@ var MiExtend bool
 var ListPort string
 var TuyaAccessId string
 var TuyaCret string
+var ConfFile string
 
 func init() {
 	flag.BoolVar(&MiExtend, "m", false, "open / close mi active")
 	flag.StringVar(&ListPort, "p", ":9901", "set listen port")
 	flag.StringVar(&TuyaAccessId, "a", "5jh3wwnsa9wq5xda4hls", "Tuya Iot Cloud Access ID")
 	flag.StringVar(&TuyaCret, "c", "bda847da6348420caae301def1f95c75", "Tuya Iot Cloud Access CRET")
+	flag.StringVar(&ConfFile, "f", "/data/ha/conf/config.json", "DTU Config File path ")
 }
 
 // init Config object
@@ -73,7 +74,7 @@ func LoadConfig(path string) *os.File {
 //write config file from c
 func ConfigWriteFile(c *Config) error {
 	m := jsonpb.Marshaler{Indent: " ", EmitDefaults: true}
-	file, err := os.OpenFile(c.LogPath, os.O_CREATE|os.O_RDWR, 0644)
+	file, err := os.OpenFile(ConfFile, os.O_CREATE|os.O_RDWR, 0644)
 	if err != nil {
 		panic(err)
 	}
@@ -87,5 +88,5 @@ func ApplyConfig(c *Config, reader io.Reader) {
 	if err != nil {
 		panic(err)
 	}
-	TuyaSDK.SetEnv("https://openapi.tuyacn.com", c.ConnConfig.TuyaConfig.TuyaIotCloudAccessId, c.ConnConfig.TuyaConfig.TuyaIotCloudAccessCRET)
+	//TuyaSDK.SetEnv("https://openapi.tuyacn.com", c.ConnConfig.TuyaConfig.TuyaIotCloudAccessId, c.ConnConfig.TuyaConfig.TuyaIotCloudAccessCRET)
 }
