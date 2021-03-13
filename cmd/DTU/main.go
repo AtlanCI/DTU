@@ -5,5 +5,4 @@ func main() {
 	StartJobs(conf)
 	StartUpDataToEc(conf)
 	StartHttpServer(conf)
-
 }

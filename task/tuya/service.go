@@ -2,6 +2,7 @@ package tuya
 
 import (
 	"DTU/pkg"
+	"github.com/pkg/errors"
 	"github.com/tuya/tuya-cloud-sdk-go/api/device"
 	"github.com/tuya/tuya-cloud-sdk-go/api/user"
 )
@@ -20,7 +21,8 @@ func similarityId(id string) bool {
 func GetDeviceByUserId(uid string) {
 	resp, err := user.GetDeviceListByUID(uid)
 	if err != nil {
-		panic(err)
+		pkg.LogSugar.Sugar().Warn(errors.Wrap(err, "Get device for device failed"))
+		return
 	}
 	for _, v := range resp.Result {
 		if recv, ok := v.(map[string]interface{}); ok {

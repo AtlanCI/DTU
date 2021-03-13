@@ -4,6 +4,7 @@ import (
 	"DTU/configs/conf_v1"
 	"DTU/pkg"
 	"encoding/json"
+	"github.com/pkg/errors"
 )
 
 type DeviceHealthSend struct {
@@ -19,7 +20,7 @@ func (c *DeviceHealthSend) HealthCallBack(data interface{}) {
 func (c *DeviceHealthSend) SendEc(data *[]byte) {
 	_, _, err := pkg.HttpJSON(c.Path, string(*data), 3, nil)
 	if err != nil {
-		panic(err)
+		pkg.LogSugar.Sugar().Warn(errors.Wrap(err, "send health to ec failed"))
 	}
 }
 func NewDeviceHealthSend(ec *conf_v1.Config) *DeviceHealthSend {

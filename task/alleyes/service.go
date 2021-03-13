@@ -3,6 +3,7 @@ package alleyes
 import (
 	"DTU/pkg"
 	"encoding/json"
+	"github.com/pkg/errors"
 	"time"
 )
 
@@ -37,10 +38,10 @@ func GetIpcStatus(path string) {
 	var recv AlleyesStatus
 	_, body, err := pkg.HttpGET(path, nil, 3, nil)
 	if err != nil {
-		panic(err)
+		pkg.LogSugar.Sugar().Info(err)
 	}
 	if err = json.Unmarshal(body, &recv); err != nil {
-		panic(err)
+		pkg.LogSugar.Sugar().Warn(errors.Wrap(err, "Recv Alleyes IPC info Unmarshal failed"))
 	}
 	for _, v := range recv.EquipmentStatus {
 		// conversion ipc to be device Health object,and notify observer

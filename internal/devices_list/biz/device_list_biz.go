@@ -2,6 +2,7 @@ package biz
 
 import (
 	"DTU/pkg"
+	"github.com/pkg/errors"
 )
 
 type CacheList interface {
@@ -22,7 +23,7 @@ func NewCacheBiz(list CacheList) *CacheBiz {
 func (p *CacheBiz) TuyaListCallBack(data interface{}) {
 	DeviceData, ok := data.(*pkg.DeviceList)
 	if !ok {
-		panic(ok)
+		pkg.LogSugar.Sugar().Warn(errors.New("read channel for Tuya Device failed. unknown object"))
 	}
 	if DevicelistResp.Cache.Exists(DeviceData.DeviceCode) {
 		DevicelistResp.Cache.Append(*DeviceData)

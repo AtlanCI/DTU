@@ -2,6 +2,7 @@ package pkg
 
 import (
 	"fmt"
+	"github.com/pkg/errors"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -10,45 +11,25 @@ import (
 )
 
 func HttpGET(urlString string, urlParams url.Values, sTimeout int, header http.Header) (*http.Response, []byte, error) {
-	//startTime := time.Now().UnixNano()
 	client := http.Client{
 		Timeout: time.Duration(sTimeout) * time.Second,
 	}
 	urlString = AddGetDataToUrl(urlString, urlParams)
 	req, err := http.NewRequest("GET", urlString, nil)
 	if err != nil {
-		//Log.TagWarn(DLTagHTTPFailed, map[string]interface{}{
-		//	"proc_time": float32(time.Now().UnixNano()-startTime) / 1.0e9,
-		//	"args":      urlParams,
-		//	"err":       err.Error(),
-		//})
-		//return nil, nil, err
+		return nil, nil, errors.Wrapf(err, "Assembly request address %s failed", urlString)
 	}
 	if len(header) > 0 {
 		req.Header = header
 	}
 	resp, err := client.Do(req)
 	if err != nil {
-		//Log.TagWarn(DLTagHTTPFailed, map[string]interface{}{
-		//	"url":       urlString,
-		//	"proc_time": float32(time.Now().UnixNano()-startTime) / 1.0e9,
-		//	"method":    "GET",
-		//	"args":      urlParams,
-		//	"err":       err.Error(),
-		//})
-		//return nil, nil, err
+		return nil, nil, errors.Wrapf(err, "Request Link %s failed", urlString)
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		//Log.TagWarn(DLTagHTTPFailed, map[string]interface{}{
-		//	"url":       urlString,
-		//	"proc_time": float32(time.Now().UnixNano()-startTime) / 1.0e9,
-		//	"method":    "GET",
-		//	"args":      urlParams, "result": Substr(string(body), 0, 1024),
-		//	"err": err.Error(),
-		//})
-		//return nil, nil, err
+		return nil, nil, errors.Wrap(err, "Read Body failed")
 	}
 	//Log.TagInfo(DLTagHTTPSuccess, map[string]interface{}{
 	//	"url":       urlString,
@@ -61,7 +42,6 @@ func HttpGET(urlString string, urlParams url.Values, sTimeout int, header http.H
 }
 
 func HttpPOST(urlString string, urlParams url.Values, sTimeout int, header http.Header, contextType string) (*http.Response, []byte, error) {
-	//startTime := time.Now().UnixNano()
 	client := http.Client{
 		Timeout: time.Duration(sTimeout) * time.Second,
 	}
@@ -76,39 +56,16 @@ func HttpPOST(urlString string, urlParams url.Values, sTimeout int, header http.
 	req.Header.Set("Content-Type", contextType)
 	resp, err := client.Do(req)
 	if err != nil {
-		//Log.TagWarn(DLTagHTTPFailed, map[string]interface{}{
-		//             "url":       urlString,
-		//             "proc_time": float32(time.Now().UnixNano()-startTime) / 1.0e9,
-		//         "method":    "POST",
-		//            "args":      Substr(urlParamEncode, 0, 1024),
-		//            "err":       err.Error(),
-		//        })
-		//    return nil, nil, err
-		panic(err)
+		return nil, nil, errors.Wrapf(err, "Request Link %s failed", urlString)
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		// Log.TagWarn(DLTagHTTPFailed, map[string]interface{}{
-		//         "url":       urlString,
-		//        "proc_time": float32(time.Now().UnixNano()-startTime) / 1.0e9,
-		//         "method":    "POST",
-		//         "args":      Substr(urlParamEncode, 0, 1024),
-		//         "result":    Substr(string(body), 0, 1024),
-		//         "err":       err.Error(),
-		//     })
-		//return nil, nil, err
-		panic(err)
+		return nil, nil, errors.Wrap(err, "Read Body failed")
 	}
-	//Log.TagInfo(DLTagHTTPSuccess, map[string]interface{}{
-	//        "url":       urlString,
-	//        "proc_time": float32(time.Now().UnixNano()-startTime) / 1.0e9,
-	//        "method":    "POST",
-	//        "args":      Substr(urlParamEncode, 0, 1024),
-	//       "result":    Substr(string(body), 0, 1024),
-	//    })
 	return resp, body, nil
 }
+
 func AddGetDataToUrl(urlString string, data url.Values) string {
 	if strings.Contains(urlString, "?") {
 		urlString = urlString + "&"
@@ -119,7 +76,6 @@ func AddGetDataToUrl(urlString string, data url.Values) string {
 }
 
 func HttpJSON(urlString string, jsonContent string, sTimeout int, header http.Header) (*http.Response, []byte, error) {
-	//startTime := time.Now().UnixNano()
 	client := http.Client{
 		Timeout: time.Duration(sTimeout) * time.Second,
 	}
@@ -130,34 +86,12 @@ func HttpJSON(urlString string, jsonContent string, sTimeout int, header http.He
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := client.Do(req)
 	if err != nil {
-		//Log.TagWarn(DLTagHTTPFailed, map[string]interface{}{
-		//	"url":       urlString,
-		//	"proc_time": float32(time.Now().UnixNano()-startTime) / 1.0e9,
-		//	"method":    "POST",
-		//	"args":      Substr(jsonContent, 0, 1024),
-		//	"err":       err.Error(),
-		//})
-		//return nil, nil, err
+		return nil, nil, errors.Wrapf(err, "Request Link %s failed", urlString)
 	}
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		//Log.TagWarn(DLTagHTTPFailed, map[string]interface{}{
-		//	"url":       urlString,
-		//	"proc_time": float32(time.Now().UnixNano()-startTime) / 1.0e9,
-		//	"method":    "POST",
-		//	"args":      Substr(jsonContent, 0, 1024),
-		//	"result":    Substr(string(body), 0, 1024),
-		//	"err":       err.Error(),
-		//})
-		//return nil, nil, err
+		return nil, nil, errors.Wrap(err, "Read Body failed")
 	}
-	//Log.TagInfo(DLTagHTTPSuccess, map[string]interface{}{
-	//	"url":       urlString,
-	//	"proc_time": float32(time.Now().UnixNano()-startTime) / 1.0e9,
-	//	"method":    "POST",
-	//	"args":      Substr(jsonContent, 0, 1024),
-	//	"result":    Substr(string(body), 0, 1024),
-	//})
 	return resp, body, nil
 }

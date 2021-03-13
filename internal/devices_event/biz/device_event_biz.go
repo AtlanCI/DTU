@@ -4,6 +4,7 @@ import (
 	"DTU/configs/conf_v1"
 	"DTU/pkg"
 	"encoding/json"
+	"github.com/pkg/errors"
 )
 
 type DeviceEventSend struct {
@@ -19,7 +20,7 @@ func (c *DeviceEventSend) DeviceEventCallBack(data interface{}) {
 func (c *DeviceEventSend) SendEc(data *[]byte) {
 	_, _, err := pkg.HttpJSON(c.Path, string(*data), 3, nil)
 	if err != nil {
-		panic(err)
+		pkg.LogSugar.Sugar().Warn(errors.Wrap(err, "send  device Event to ec failed"))
 	}
 }
 func NewDeviceEventSend(ec *conf_v1.Config) *DeviceEventSend {
