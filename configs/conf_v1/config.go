@@ -43,8 +43,8 @@ func NewConfig(options ...func(*Config)) *Config {
 			},
 			TuyaConfig: &Config_ConnTuya{
 				MerchantEmailInterface: "http://127.0.0.1:7001/gateway/getRestaurant",
-				TuyaIotCloudAccessId:   "5jh3wwnsa9wq5xda4hls",
-				TuyaIotCloudAccessCRET: "bda847da6348420caae301def1f95c75",
+				TuyaIotCloudAccessId:   "5jh3ww4hls",
+				TuyaIotCloudAccessCRET: "bdf1f95c75",
 				TuyaUidCachePath:       "/data/ha/conf/UID",
 			},
 			OtherConfig: &Config_ConnOther{
