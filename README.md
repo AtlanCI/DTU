@@ -1,5 +1,5 @@
 # DTU
-微诺时代物联网项目框架参考微服务DDD和kratos工程设计概念。存在为了微服务而微服务的情况！！！！练手项目！！！
+边缘程序-物联代理程序
 # 目录结构
 ```bash
 ├── apis   //基于porotocl buffer设计的api http或grpc
