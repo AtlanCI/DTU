@@ -16,8 +16,8 @@ var ConfFile string
 func init() {
 	flag.BoolVar(&MiExtend, "m", false, "open / close mi active")
 	flag.StringVar(&ListPort, "p", ":9901", "set listen port")
-	flag.StringVar(&TuyaAccessId, "a", "5jh3wwnsa9wq5xda4hls", "Tuya Iot Cloud Access ID")
-	flag.StringVar(&TuyaCret, "c", "bda847da6348420caae301def1f95c75", "Tuya Iot Cloud Access CRET")
+	flag.StringVar(&TuyaAccessId, "a", "5jh3wwnsa9wq5xd", "Tuya Iot Cloud Access ID")
+	flag.StringVar(&TuyaCret, "c", "bda301def1f95c75", "Tuya Iot Cloud Access CRET")
 	flag.StringVar(&ConfFile, "f", "/data/ha/conf/config.json", "DTU Config File path ")
 }
 
